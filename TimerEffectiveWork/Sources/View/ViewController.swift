@@ -17,15 +17,15 @@ class ViewController: UIViewController {
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
         button.setTitleColor(UIColor.systemYellow, for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        button.tintColor = .orange
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
     private lazy var timerDisplay: UITextView = {
         let timerDisplay = UITextView()
-        timerDisplay.text = "00:00:10"
-        timerDisplay.textColor = .white
-        //timerDisplay.textAlignment = .center
+        timerDisplay.text = "00:00:\(timeToWork)"
+        timerDisplay.textColor = .orange
         timerDisplay.backgroundColor = .black
         timerDisplay.font = UIFont.systemFont(ofSize: 50)
         timerDisplay.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +36,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
         setupHierarchy()
         setupLayout()
     }
@@ -56,16 +57,16 @@ class ViewController: UIViewController {
         
         timerDisplay.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.left.equalTo(view).offset(50)
-            make.right.equalTo(view).inset(50)
+            make.left.equalTo(view).offset(51)
+            make.right.equalTo(view).inset(51)
             make.height.equalTo(80)
             make.top.equalTo(view).offset(180)
         }
     }
 
-    var timeToWork = 10
-    var timeToRest = 5
-    var remaningTime = 10
+    var timeToWork = 25
+    var timeToRest = 10
+    var remaningTime = 25
     var timer: Timer!
     var isStarted: Bool = false
     var isWorkTime: Bool = true
@@ -78,9 +79,13 @@ class ViewController: UIViewController {
         } else if isWorkTime {
             remaningTime = timeToRest
             isWorkTime = false
+            button.tintColor = .systemGreen
+            timerDisplay.textColor = .systemGreen
         } else if !isWorkTime {
             remaningTime = timeToWork
             isWorkTime = true
+            button.tintColor = .orange
+            timerDisplay.textColor = .orange
         }
         if remaningTime < 10 {
             timerDisplay.text = "00:00:0\(remaningTime)"
