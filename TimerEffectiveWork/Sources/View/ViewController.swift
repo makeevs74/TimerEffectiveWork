@@ -20,6 +20,17 @@ class ViewController: UIViewController {
         return button
     }()
 
+    private lazy var timerDisplay: UITextView = {
+        let timerDisplay = UITextView()
+        timerDisplay.text = "00:00:10"
+        timerDisplay.textColor = .white
+        //timerDisplay.textAlignment = .center
+        timerDisplay.backgroundColor = .black
+        timerDisplay.font = UIFont.systemFont(ofSize: 50)
+        timerDisplay.translatesAutoresizingMaskIntoConstraints = false
+        return timerDisplay
+    }()
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -32,6 +43,7 @@ class ViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(button)
+        view.addSubview(timerDisplay)
     }
 
     private func setupLayout() {
@@ -39,6 +51,14 @@ class ViewController: UIViewController {
             make.center.equalTo(view)
             make.width.equalTo(30)
             make.height.equalTo(30)
+        }
+        
+        timerDisplay.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.left.equalTo(view).offset(50)
+            make.right.equalTo(view).inset(50)
+            make.height.equalTo(80)
+            make.top.equalTo(view).offset(180)
         }
     }
 }
