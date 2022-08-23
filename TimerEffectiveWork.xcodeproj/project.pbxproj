@@ -58,15 +58,63 @@
 		365BEF2B28B521F4008DD4E4 /* TimerEffectiveWork */ = {
 			isa = PBXGroup;
 			children = (
-				365BEF2C28B521F4008DD4E4 /* AppDelegate.swift */,
-				365BEF2E28B521F4008DD4E4 /* SceneDelegate.swift */,
-				365BEF3028B521F4008DD4E4 /* ViewController.swift */,
-				365BEF3228B521F4008DD4E4 /* Main.storyboard */,
-				365BEF3528B521F7008DD4E4 /* Assets.xcassets */,
-				365BEF3728B521F7008DD4E4 /* LaunchScreen.storyboard */,
-				365BEF3A28B521F7008DD4E4 /* Info.plist */,
+				365BEF4828B52434008DD4E4 /* Resources */,
+				365BEF4328B523C4008DD4E4 /* Sources */,
 			);
 			path = TimerEffectiveWork;
+			sourceTree = "<group>";
+		};
+		365BEF4328B523C4008DD4E4 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				365BEF4728B5240E008DD4E4 /* Storyboard */,
+				365BEF4628B523FC008DD4E4 /* View */,
+				365BEF4428B523D4008DD4E4 /* App */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		365BEF4428B523D4008DD4E4 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				365BEF2E28B521F4008DD4E4 /* SceneDelegate.swift */,
+				365BEF2C28B521F4008DD4E4 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		365BEF4628B523FC008DD4E4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				365BEF3028B521F4008DD4E4 /* ViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		365BEF4728B5240E008DD4E4 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				365BEF3228B521F4008DD4E4 /* Main.storyboard */,
+				365BEF3728B521F7008DD4E4 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		365BEF4828B52434008DD4E4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				365BEF3528B521F7008DD4E4 /* Assets.xcassets */,
+				365BEF4928B5244E008DD4E4 /* Configuration */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		365BEF4928B5244E008DD4E4 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				365BEF3A28B521F7008DD4E4 /* Info.plist */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,7 +345,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = US52Z2NGF6;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TimerEffectiveWork/Info.plist;
+				INFOPLIST_FILE = TimerEffectiveWork/Resources/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -325,7 +373,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = US52Z2NGF6;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TimerEffectiveWork/Info.plist;
+				INFOPLIST_FILE = TimerEffectiveWork/Resources/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
