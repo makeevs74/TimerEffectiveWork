@@ -30,12 +30,12 @@ class ViewController: UIViewController {
         return button
     }()
 
-    private lazy var timerDisplay: UITextView = {
-        let timerDisplay = UITextView()
+    private lazy var timerDisplay: UILabel = {
+        let timerDisplay = UILabel()
         timerDisplay.text = "00:00:\(timeToWork)"
         timerDisplay.textColor = .orange
-        timerDisplay.backgroundColor = .red
-        timerDisplay.textAlignment = .center
+        timerDisplay.backgroundColor = .black
+        timerDisplay.textAlignment = .left
         timerDisplay.font = UIFont.systemFont(ofSize: 50)
         timerDisplay.translatesAutoresizingMaskIntoConstraints = false
         return timerDisplay
@@ -63,31 +63,19 @@ class ViewController: UIViewController {
     // MARK: - Hierarchy and Setup
 
     private func setupHierarchy() {
-//        view.addSubview(button)
-//        view.addSubview(timerDisplay)
         view.addSubview(stack)
-        stack.addArrangedSubview(button)
         stack.addArrangedSubview(timerDisplay)
+        stack.addArrangedSubview(button)
+
     }
 
     private func setupLayout() {
-//        button.snp.makeConstraints { make in
-//            make.center.equalTo(view)
-//            make.width.equalTo(30)
-//            make.height.equalTo(30)
-//        }
-//
-//        timerDisplay.snp.makeConstraints { make in
-//            make.centerX.equalTo(view)
-//            make.left.equalTo(view).offset(51)
-//            make.bottom.equalTo(button.snp.top).offset(-10)
-//            make.height.equalTo(60)
-//        }
+        timerDisplay.snp.makeConstraints { make in
+            make.width.equalTo(207)
+        }
 
         stack.snp.makeConstraints { make in
             make.center.equalTo(view)
-            make.size.height.equalTo(100)
-            make.size.width.equalTo(270)
         }
     }
 
