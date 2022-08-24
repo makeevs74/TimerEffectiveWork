@@ -10,6 +10,13 @@ import SnapKit
 
 class ViewController: UIViewController {
 
+    var timeToWork = 25
+    var timeToRest = 10
+    var remaningTime = 25
+    var timer: Timer!
+    var isStarted: Bool = false
+    var isWorkTime: Bool = true
+
     // MARK: - Outlets
 
     private lazy var button: UIButton = {
@@ -18,18 +25,30 @@ class ViewController: UIViewController {
         button.setTitleColor(UIColor.systemYellow, for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         button.tintColor = .orange
+
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
-    private lazy var timerDisplay: UITextView = {
-        let timerDisplay = UITextView()
+    private lazy var timerDisplay: UILabel = {
+        let timerDisplay = UILabel()
         timerDisplay.text = "00:00:\(timeToWork)"
         timerDisplay.textColor = .orange
         timerDisplay.backgroundColor = .black
+        timerDisplay.textAlignment = .left
         timerDisplay.font = UIFont.systemFont(ofSize: 50)
         timerDisplay.translatesAutoresizingMaskIntoConstraints = false
         return timerDisplay
+    }()
+
+    private lazy var stack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 20
+        stack.distribution = .fill
+        stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
 
     // MARK: - Lifecycle
@@ -44,32 +63,21 @@ class ViewController: UIViewController {
     // MARK: - Hierarchy and Setup
 
     private func setupHierarchy() {
-        view.addSubview(button)
-        view.addSubview(timerDisplay)
+        view.addSubview(stack)
+        stack.addArrangedSubview(timerDisplay)
+        stack.addArrangedSubview(button)
+
     }
 
     private func setupLayout() {
-        button.snp.makeConstraints { make in
-            make.center.equalTo(view)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
-        }
-        
         timerDisplay.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.left.equalTo(view).offset(51)
-            make.right.equalTo(view).inset(51)
-            make.height.equalTo(80)
-            make.top.equalTo(view).offset(180)
+            make.width.equalTo(207)
+        }
+
+        stack.snp.makeConstraints { make in
+            make.center.equalTo(view)
         }
     }
-
-    var timeToWork = 25
-    var timeToRest = 10
-    var remaningTime = 25
-    var timer: Timer!
-    var isStarted: Bool = false
-    var isWorkTime: Bool = true
 
     // MARK: - Actions
 
@@ -107,7 +115,6 @@ class ViewController: UIViewController {
             isStarted = false
             button.setImage(UIImage(systemName: "play.fill"), for: .normal)
             timer.invalidate()
-
         }
     }
 }
