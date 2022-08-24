@@ -66,7 +66,6 @@ class ViewController: UIViewController {
         view.addSubview(stack)
         stack.addArrangedSubview(timerDisplay)
         stack.addArrangedSubview(button)
-
     }
 
     private func setupLayout() {

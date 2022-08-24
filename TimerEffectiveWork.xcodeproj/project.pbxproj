@@ -14,6 +14,7 @@
 		365BEF3628B521F7008DD4E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 365BEF3528B521F7008DD4E4 /* Assets.xcassets */; };
 		365BEF3928B521F7008DD4E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 365BEF3728B521F7008DD4E4 /* LaunchScreen.storyboard */; };
 		365BEF4228B522DF008DD4E4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 365BEF4128B522DF008DD4E4 /* SnapKit */; };
+		365BEF4E28B694BC008DD4E4 /* CircularProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365BEF4D28B694BC008DD4E4 /* CircularProgressBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		365BEF3528B521F7008DD4E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		365BEF3828B521F7008DD4E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		365BEF3A28B521F7008DD4E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		365BEF4D28B694BC008DD4E4 /* CircularProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 		365BEF4328B523C4008DD4E4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				365BEF4C28B69490008DD4E4 /* Animation */,
 				365BEF4728B5240E008DD4E4 /* Storyboard */,
 				365BEF4628B523FC008DD4E4 /* View */,
 				365BEF4428B523D4008DD4E4 /* App */,
@@ -115,6 +118,14 @@
 				365BEF3A28B521F7008DD4E4 /* Info.plist */,
 			);
 			path = Configuration;
+			sourceTree = "<group>";
+		};
+		365BEF4C28B69490008DD4E4 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				365BEF4D28B694BC008DD4E4 /* CircularProgressBarView.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +207,7 @@
 			files = (
 				365BEF3128B521F4008DD4E4 /* ViewController.swift in Sources */,
 				365BEF2D28B521F4008DD4E4 /* AppDelegate.swift in Sources */,
+				365BEF4E28B694BC008DD4E4 /* CircularProgressBarView.swift in Sources */,
 				365BEF2F28B521F4008DD4E4 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
