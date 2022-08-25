@@ -17,6 +17,9 @@ class ViewController: UIViewController {
     var isStarted: Bool = false
     var isWorkTime: Bool = true
 
+    let shapeLayer = CAShapeLayer()
+    //let workRingColor =
+
     // MARK: - Outlets
 
     private lazy var button: UIButton = {
@@ -28,6 +31,13 @@ class ViewController: UIViewController {
 
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+
+    private lazy var shapeView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "circle")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
 
     private lazy var timerDisplay: UILabel = {
@@ -53,6 +63,11 @@ class ViewController: UIViewController {
 
     // MARK: - Lifecycle
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.animationCircelar()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -64,6 +79,7 @@ class ViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(stack)
+        view.addSubview(shapeView)
         stack.addArrangedSubview(timerDisplay)
         stack.addArrangedSubview(button)
     }
@@ -75,6 +91,12 @@ class ViewController: UIViewController {
 
         stack.snp.makeConstraints { make in
             make.center.equalTo(view)
+        }
+
+        shapeView.snp.makeConstraints { make in
+            make.center.equalTo(view)
+            make.height.equalTo(330)
+            make.width.equalTo(330)
         }
     }
 
@@ -102,10 +124,12 @@ class ViewController: UIViewController {
     }
 
     @objc private func buttonPressed() {
+
         if !isStarted {
+            basicAnimation()
             isStarted = true
             button.setImage(UIImage(systemName: "pause.fill"), for: .normal)
-            timer = Timer.scheduledTimer(timeInterval: 1.0,
+            timer = Timer.scheduledTimer(timeInterval: 1,
                                          target: self,
                                          selector: #selector(fireTimer),
                                          userInfo: nil,
@@ -115,6 +139,30 @@ class ViewController: UIViewController {
             button.setImage(UIImage(systemName: "play.fill"), for: .normal)
             timer.invalidate()
         }
+    }
+
+    func animationCircelar() {
+        let center = CGPoint(x: shapeView.frame.width / 2, y: shapeView.frame.height / 2)
+        let endAngle = (-CGFloat.pi / 2)
+        let startAngle = 2 * CGFloat.pi + endAngle
+        let circularPath = UIBezierPath(arcCenter: center, radius: 138, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+
+        shapeLayer.path = circularPath.cgPath
+        shapeLayer.lineWidth = 21
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeEnd = 1
+        shapeLayer.lineCap = CAShapeLayerLineCap.round
+        shapeLayer.strokeColor = UIColor.orange.cgColor
+        shapeView.layer.addSublayer(shapeLayer)
+    }
+
+    func basicAnimation() {
+        let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        basicAnimation.toValue = 0
+        basicAnimation.duration = CFTimeInterval(remaningTime)
+        basicAnimation.fillMode = CAMediaTimingFillMode.forwards
+        basicAnimation.isRemovedOnCompletion = true
+        shapeLayer.add(basicAnimation, forKey: "basicAnimation")
     }
 }
 
