@@ -10,12 +10,21 @@ import SnapKit
 
 class ViewController: UIViewController {
 
-    var timeToWork = 25
-    var timeToRest = 10
+    let timeToWork = 25
+    let timeToRest = 10
     var remaningTime = 25
-    var timer: Timer!
+    var timer: Timer?
     var isStarted: Bool = false
     var isWorkTime: Bool = true
+    var state: TimerStatus = .play
+
+    let shapeLayer = CAShapeLayer()
+
+    enum TimerStatus {
+        case resume
+        case pause
+        case play
+    }
 
     // MARK: - Outlets
 
@@ -25,20 +34,17 @@ class ViewController: UIViewController {
         button.setTitleColor(UIColor.systemYellow, for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         button.tintColor = .orange
-
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
     private lazy var timerDisplay: UILabel = {
-        let timerDisplay = UILabel()
-        timerDisplay.text = "00:00:\(timeToWork)"
-        timerDisplay.textColor = .orange
-        timerDisplay.backgroundColor = .black
-        timerDisplay.textAlignment = .left
-        timerDisplay.font = UIFont.systemFont(ofSize: 50)
-        timerDisplay.translatesAutoresizingMaskIntoConstraints = false
-        return timerDisplay
+        let timer = UILabel()
+        timer.text = "00:00:\(remaningTime)"
+        timer.textColor = .orange
+        timer.backgroundColor = .black
+        timer.textAlignment = .left
+        timer.font = UIFont.systemFont(ofSize: 50)
+        return timer
     }()
 
     private lazy var stack: UIStackView = {
@@ -47,7 +53,6 @@ class ViewController: UIViewController {
         stack.spacing = 20
         stack.distribution = .fill
         stack.alignment = .center
-        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
 
@@ -67,6 +72,7 @@ class ViewController: UIViewController {
         stack.addArrangedSubview(timerDisplay)
         stack.addArrangedSubview(button)
 
+        animationCircular(color: .orange)
     }
 
     private func setupLayout() {
@@ -82,19 +88,19 @@ class ViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func fireTimer() {
+
         if remaningTime > 0 {
             remaningTime -= 1
-        } else if isWorkTime {
-            remaningTime = timeToRest
-            isWorkTime = false
-            button.tintColor = .systemGreen
-            timerDisplay.textColor = .systemGreen
-        } else if !isWorkTime {
-            remaningTime = timeToWork
-            isWorkTime = true
-            button.tintColor = .orange
-            timerDisplay.textColor = .orange
+
+        } else if remaningTime == 0 {
+            timer?.invalidate()
+            state = .play
+            isStarted = false
+            remaningTime = !isWorkTime ? timeToWork : timeToRest
+            button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+            fireTimerLogic()
         }
+
         if remaningTime < 10 {
             timerDisplay.text = "00:00:0\(remaningTime)"
         } else {
@@ -102,20 +108,91 @@ class ViewController: UIViewController {
         }
     }
 
+    func fireTimerLogic() {
+        if isWorkTime {
+            isWorkTime = false
+            button.tintColor = .systemGreen
+            timerDisplay.textColor = .systemGreen
+            shapeLayer.strokeColor = UIColor.systemGreen.cgColor
+            animationCircular(color: .systemGreen)
+        } else {
+            isWorkTime = true
+            button.tintColor = .orange
+            timerDisplay.textColor = .orange
+            animationCircular(color: .orange)
+        }
+    }
+
     @objc private func buttonPressed() {
-        if !isStarted {
+        switch state {
+        case .play:
+            if !isStarted {
+                basicAnimation()
+                timer = Timer.scheduledTimer(timeInterval: 1,
+                                             target: self,
+                                             selector: #selector(fireTimer),
+                                             userInfo: nil,
+                                             repeats: true)
+            }
             isStarted = true
+            state = .pause
             button.setImage(UIImage(systemName: "pause.fill"), for: .normal)
-            timer = Timer.scheduledTimer(timeInterval: 1.0,
+
+        case .pause:
+            isStarted = false
+            state = .resume
+            pauseAnimation()
+            button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+            timer?.invalidate()
+        case .resume:
+            isStarted = true
+            state = .pause
+            resumeAnimation()
+            button.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+            timer = Timer.scheduledTimer(timeInterval: 1,
                                          target: self,
                                          selector: #selector(fireTimer),
                                          userInfo: nil,
                                          repeats: true)
-        } else if isStarted {
-            isStarted = false
-            button.setImage(UIImage(systemName: "play.fill"), for: .normal)
-            timer.invalidate()
         }
+    }
+
+    func animationCircular(color: UIColor) {
+        let center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
+        let endAngle = (-CGFloat.pi / 2)
+        let startAngle = 2 * CGFloat.pi + endAngle
+        let circularPath = UIBezierPath(arcCenter: center, radius: 138, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+
+        shapeLayer.path = circularPath.cgPath
+        shapeLayer.lineWidth = 21
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeEnd = 1
+        shapeLayer.lineCap = CAShapeLayerLineCap.round
+        shapeLayer.strokeColor = color.cgColor
+        view.layer.addSublayer(shapeLayer)
+    }
+
+    func basicAnimation() {
+        let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        basicAnimation.toValue = 0
+        basicAnimation.duration = CFTimeInterval(remaningTime)
+        basicAnimation.fillMode = CAMediaTimingFillMode.forwards
+        basicAnimation.isRemovedOnCompletion = true
+        shapeLayer.add(basicAnimation, forKey: "basicAnimation")
+    }
+
+    private func pauseAnimation() {
+        let pauseTime = shapeLayer.convertTime(CACurrentMediaTime(), from: nil)
+        shapeLayer.speed = 0
+        shapeLayer.timeOffset = pauseTime
+        }
+
+    private func resumeAnimation() {
+        let pauseTime = shapeLayer.timeOffset
+        shapeLayer.speed = 1
+        shapeLayer.timeOffset = 0
+        let timeSincePause = shapeLayer.convertTime(CACurrentMediaTime(), from: nil) - pauseTime
+        shapeLayer.beginTime = timeSincePause
     }
 }
 
